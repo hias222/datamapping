@@ -1,0 +1,42 @@
+NUMBER_LANES=6
+PROPERTY_FILE=property.ini
+LENEX_BASE_DIR=/tmp
+
+# local
+#DEST_MQTT_HOST=localhost
+# mainchanne
+#DEST_MQTT_TOPIC="mainchannel"
+HTTP_REST_PORT=3001
+
+
+# Azure
+DEST_MQTT_HOST=swim.azure-devices.net
+DEST_MQTT_DEVICEID="rpi-02-2019"
+DEST_MQTT_TOPIC="devices/rpi-02-2019/messages/events/"
+DEST_MQTT_PWD="SharedA571699605"
+#HTTP_REST_PORT=3002
+
+
+# SAS Token
+# --> in visual Studio Code ... create SAS Token
+# SharedAccessSignature sr=swi604737
+# swim.azure-devices.net
+# rpi-01-2019
+# Verwenden Sie {iothubhostname}/{device_id}/?api-version=2018-06-30 für das Feld Benutzername, wobei {iothubhostname} der vollständige CNAME für den IoT Hub ist.
+# swim.azure-devices.net/rpi-01-2019/?api-version=2018-06-30
+
+# "connectionString": "HostName=sw
+# const iotHubTopic = `devices/${deviceId}/messages/events/`;
+
+#var client = MQTT.connect(`mqtts://${iotHubName}.azure-devices.net:8883`, {
+#  keepalive: 10,
+#  clientId: deviceId,
+#  protocolId: 'MQTT',
+#  clean: false,
+#  protocolVersion: 4,
+#  reconnectPeriod: 1000,
+#  connectTimeout: 30 * 1000,
+#  username: userName,
+#  password: "{SAS Token}",
+#  rejectUnauthorized: false, 
+#‚});
