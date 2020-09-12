@@ -7,6 +7,7 @@ RANDOM_TIME="1:1,1"
 
 NUMBER_EVENTS=22
 NUMBER_HEATS=4
+NUMBER_LANES=8
 
 send_raw_message(){
     echo $1
@@ -36,7 +37,7 @@ do
         sleep 4
 
         # laps
-        for i in {1..6}
+        for (( i=1; i<=$NUMBER_LANES; i++ ))
         do
             create_random_time
         send_raw_message "lane $i ${RANDOM_TIME} 0"
@@ -44,7 +45,7 @@ do
 
         sleep 5
         # end
-        for i in {1..6}
+        for (( i=1; i<=$NUMBER_LANES; i++ ))
         do
         create_random_time
         send_raw_message "lane $i ${RANDOM_TIME} $i"
