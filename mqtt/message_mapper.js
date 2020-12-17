@@ -53,6 +53,7 @@ class MessageMapper {
           }
 
           if (newmessage.type === "header") {
+            console.log("<mapper> message header")
             if (newmessage.event != lastEvent || newmessage.heat != lastHeat) {
               lastEvent = newmessage.event
               lastHeat = newmessage.heat

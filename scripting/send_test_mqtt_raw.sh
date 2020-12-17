@@ -39,7 +39,7 @@ do
         # laps
         for (( i=1; i<=$NUMBER_LANES; i++ ))
         do
-            create_random_time
+        create_random_time
         send_raw_message "lane $i ${RANDOM_TIME} 0"
         done
 
