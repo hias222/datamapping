@@ -2,27 +2,30 @@
 
 Get MQTT Data and add user data
 
-## configure
+## install
 
 * npm install
 * check .env file out of example.env
 * add number of lanes in env file
-
+* start mqtt sserver
 
 ## Start
 
+### MQTT out of docker
+
 ```bash
+docker pull eclipse-mosquitto
+docker run -d -p 1883:1883 -p 9001:9001 eclipse-mosquitto
+```
+
+### App
+
+```bash
+npm i
 node app.js
 ```
 
-## Create Docker container
-
-```bash
-docker build -t hias222/datamapping .
-docker run --name datamapping -p 80:8080 -d hias222/datamapping
-```
-
-## Start MQTT for test
+## Detailed Tests Start MQTT for test
 
 ### Mosquito Folder
 
