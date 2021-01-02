@@ -1,6 +1,7 @@
 #!/bin/bash
 
-MQTT_HOST=localhost
+#MQTT_HOST=localhost
+MQTT_HOST=192.168.178.174
 RAW_TOPIC=rawdata
 
 RANDOM_TIME="1:1,1"
@@ -22,6 +23,7 @@ create_random_time() {
 }
 
 send_raw_message clock
+send_raw_message stop
 sleep 1
 create_random_time
      
