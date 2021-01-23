@@ -2,6 +2,7 @@ const mqtt = require('mqtt');
 require('dotenv').config()
 
 var sendsuccess = false;
+var mqttpath = '/wsmqtt'
 
 class MqttSender {
   constructor() {
@@ -10,9 +11,9 @@ class MqttSender {
     //this.mqtttopic = 'mainchannel'
 
     var mqttdestination = typeof process.env.DEST_MQTT_HOST !== "undefined" ? 'mqtt://' + process.env.DEST_MQTT_HOST : 'mqtt://localhost';
-    var wsmqttdestination = typeof process.env.DEST_MQTT_HOST !== "undefined" ? 'ws://' + process.env.DEST_MQTT_HOST + ":9001/" : 'ws://localhost:9001/mqtt';
+    var wsmqttdestination = typeof process.env.DEST_MQTT_HOST !== "undefined" ? 'ws://' + process.env.DEST_MQTT_HOST + ":9001/" : 'ws://localhost:9001';
     var wsmqttport = typeof process.env.DEST_MQTT_PORT !== "undefined" ? process.env.DEST_MQTT_PORT : 9001
-    var wsmqttdestination = typeof process.env.DEST_MQTT_HOST !== "undefined" ? 'ws://' + process.env.DEST_MQTT_HOST + ':' + wsmqttport  : 'ws://localhost:' + wsmqttport + '/mqtt'
+    var wsmqttdestination = typeof process.env.DEST_MQTT_HOST !== "undefined" ? 'ws://' + process.env.DEST_MQTT_HOST + ':' + wsmqttport  : 'ws://localhost:' + wsmqttport
 
     this.authenticationSet = typeof process.env.DEST_MQTT_DEVICEID !== "undefined" ? true : false;
     //this.host = 'mqtt://' + process.env.DEST_MQTT_HOST;
@@ -26,7 +27,8 @@ class MqttSender {
     //this.mqttClient = mqtt.connect(this.host, { username: this.username, password: this.password });
 
     var settings = {
-      keepalive: 2000
+      keepalive: 2000,
+      path: mqttpath
     }
 
     if (this.authenticationSet){
@@ -46,7 +48,7 @@ class MqttSender {
     } else {
       console.log("<sender> no auth set for outgoing mqtt"+ this.authenticationSet + " " + this.username + " " + this.password);
       this.mqttClient = mqtt.connect(this.host, settings);
-      console.log("<sender> DEST_MQTT_HOST: " +  this.host )
+      console.log("<sender> DEST_MQTT_HOST: " +  this.host  + mqttpath)
     }
   
   
