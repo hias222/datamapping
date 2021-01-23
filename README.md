@@ -33,6 +33,20 @@ node app.js
 docker run -d -p 1883:1883 -p 9001:9001 -v $(pwd)/mosquitto.conf:/mosqtto/config/mosquitto.conf -v /mosquitto/data -v $(pwd)/log:/mosquitto/log eclipse-mosquitto
 ```
 
+## Docker
+
+```bash
+# start local docker
+
+# docker build -t <your username>/node-web-app . 
+docker build -t datamapping/node-web-app .
+
+DEST_MQTT_HOST
+docker run -p 8080:8080 -e DEST_MQTT_HOST=localhost datamapping/node-web-app
+docker images
+```
+
+
 ## Sample Data
 
 ```bash

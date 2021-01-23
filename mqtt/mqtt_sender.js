@@ -10,7 +10,9 @@ class MqttSender {
     //this.mqtttopic = 'mainchannel'
 
     var mqttdestination = typeof process.env.DEST_MQTT_HOST !== "undefined" ? 'mqtt://' + process.env.DEST_MQTT_HOST : 'mqtt://localhost';
-    var wsmqttdestination = typeof process.env.DEST_MQTT_HOST !== "undefined" ? 'ws://' + process.env.DEST_MQTT_HOST + ":9002/123" : 'ws://localhost:9001/mqtt';
+    var wsmqttdestination = typeof process.env.DEST_MQTT_HOST !== "undefined" ? 'ws://' + process.env.DEST_MQTT_HOST + ":9001/" : 'ws://localhost:9001/mqtt';
+    var wsmqttport = typeof process.env.DEST_MQTT_PORT !== "undefined" ? process.env.DEST_MQTT_PORT : 9001
+    var wsmqttdestination = typeof process.env.DEST_MQTT_HOST !== "undefined" ? 'ws://' + process.env.DEST_MQTT_HOST + ':' + wsmqttport  : 'ws://localhost:' + wsmqttport + '/mqtt'
 
     this.authenticationSet = typeof process.env.DEST_MQTT_DEVICEID !== "undefined" ? true : false;
     //this.host = 'mqtt://' + process.env.DEST_MQTT_HOST;
