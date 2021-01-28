@@ -8,11 +8,17 @@ var messageMapper = new messageMapper();
 var lastMessage = '';
 var ConnectedRaw = false;
 
+var mqtt_username_local = typeof process.env.MQTT_USERNAME_LOCAL !== "undefined" ? process.env.MQTT_USERNAME_LOCAL : 'mqtt';
+var mqtt_password_local = typeof process.env.MQTT_PASSWORD_LOCAL !== "undefined" ? process.env.MQTT_PASSWORD_LOCAL : 'mqtt';
+
 var SendMessage = '';
 
 var settings = {
-  keepalive: 2000
-}
+  keepalive: 2000,
+  username: mqtt_username_local,
+  password: mqtt_password_local,
+  clientId: 'handler_' + Math.random().toString(16).substr(2, 8)
+  };
 
 class MqttHandler {
   constructor() {
@@ -20,8 +26,6 @@ class MqttHandler {
     this.mqttClient = null;
     this.rawtopic = 'rawdata'
     this.host = 'mqtt://localhost';
-    this.username = 'YOUR_USER'; // mqtt credentials if these are needed to connect
-    this.password = 'YOUR_PASSWORD';
     this.connectToMqtt = this.connectToMqtt.bind(this)
     //autoBind(this);
   }
@@ -46,7 +50,7 @@ class MqttHandler {
 
     // Connection callback
     this.mqttClient.on('connect', () => {
-      console.log(`mqtt_handler raw client connected`);
+      console.log(`<mqtt_handle> raw client connected`);
       ConnectedRaw = true;
     });
 
@@ -55,17 +59,17 @@ class MqttHandler {
 
     // When a message arrives, console.log it
     this.mqttClient.on('message', function (topic, message) {
-      console.log("mqtt_handler datamapping incoming " + message.toString());
+      console.log("<mqtt_handle> datamapping incoming " + message.toString());
       SendMessage = messageMapper.mapMessage(message)
       lastMessage = message;
     });
 
-    this.mqttClient.on('close', () => {
-      console.log(`mqtt_handler raw client disconnected`);
-      SendMessage = messageMapper.mapMessage("connection abort")
+    this.mqttClient.on('close', (err) => {
+      console.log(`<mqtt_handle> raw client disconnected ` + this.host );
+      console.error(err)
+      //SendMessage = messageMapper.mapMessage("connection abort")
       ConnectedRaw = false;
     });
-
   }
 
   // Sends a mqtt message to topic: mytopic

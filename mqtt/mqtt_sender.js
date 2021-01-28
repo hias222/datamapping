@@ -20,6 +20,10 @@ class MqttSender {
     this.host = process.env.USE_WS === "true" ?  wsmqttdestination : mqttdestination;
     this.deviceid = process.env.DEST_MQTT_DEVICEID; // mqtt credentials if these are needed to connect
     this.password = process.env.DEST_MQTT_PWD;
+
+    this.mqtt_username_dst = typeof process.env.MQTT_USERNAME_DEST !== "undefined" ? process.env.MQTT_USERNAME_DEST : 'mqtt';
+    this.mqtt_password_dst = typeof process.env.MQTT_PASSWORD_DEST !== "undefined" ? process.env.MQTT_PASSWORD_DEST : 'mqtt';
+
   }
 
   connect() {
@@ -28,6 +32,8 @@ class MqttSender {
 
     var settings = {
       keepalive: 2000,
+      username: this.mqtt_username_dst,
+      password: this.mqtt_password_dst,
       path: mqttpath
     }
 

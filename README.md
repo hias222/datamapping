@@ -17,6 +17,19 @@ Get MQTT Data and add user data
 docker pull eclipse-mosquitto
 docker run -d -p 1883:1883 -p 9001:9001 eclipse-mosquitto
 ```
+### MQTT Version 2 out of docker
+
+```bash
+docker pull eclipse-mosquitto:2 
+
+# use hostname -> put in hostname in mosquitto.conf
+# USer homes on MAc not working
+
+docker run -d -p 1883:1883 -p 9001:9001 --name mqtt --hostname mqtt --rm -v /tmp/mosquitto:/mosquitto/config eclipse-mosquitto:2
+
+# -v mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+```
 
 ### App
 

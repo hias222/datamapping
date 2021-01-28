@@ -4,13 +4,19 @@ require('dotenv').config()
 
 var sendsuccess = false;
 
+var mqtt_username_local = typeof process.env.MQTT_USERNAME_LOCAL !== "undefined" ? process.env.MQTT_USERNAME_LOCAL : 'mqtt';
+var mqtt_password_local = typeof process.env.MQTT_PASSWORD_LOCAL !== "undefined" ? process.env.MQTT_PASSWORD_LOCAL : 'mqtt';
+
+
 var settings = {
-    keepalive: 2000
-  }
+    keepalive: 2000,
+    username: mqtt_username_local,
+    password: mqtt_password_local,
+    };
 
 class MqttMessageSender {
     constructor() {
-        this.mqttClient = null;
+        //this.mqttClient = null;
         this.rawtopic = 'info'
         //this.host = 'mqtt://localhost';
         this.mqttClient = mqtt.connect('mqtt://localhost', settings);
