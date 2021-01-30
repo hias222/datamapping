@@ -11,6 +11,8 @@ var ConnectedRaw = false;
 var mqtt_username_local = typeof process.env.MQTT_USERNAME_LOCAL !== "undefined" ? process.env.MQTT_USERNAME_LOCAL : 'mqtt';
 var mqtt_password_local = typeof process.env.MQTT_PASSWORD_LOCAL !== "undefined" ? process.env.MQTT_PASSWORD_LOCAL : 'mqtt';
 
+var debug = process.env.MQTT_DEBUG === 'true' ? true : false; 
+
 var SendMessage = '';
 
 var settings = {
@@ -31,6 +33,7 @@ class MqttHandler {
   }
 
   connectToMqtt() {
+    if (debug) console.log(settings)
     this.mqttClient = mqtt.connect(this.host, settings);
   }
 
