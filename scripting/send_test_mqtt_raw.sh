@@ -33,9 +33,9 @@ do
     for (( g=1; g<=$NUMBER_HEATS; g++ ))
     do 
         send_raw_message "header $e $g"
-        sleep 3
+        sleep 10
         send_raw_message start
-        sleep 4
+        sleep 10
 
         # laps
         for (( i=1; i<=$NUMBER_LANES; i++ ))
