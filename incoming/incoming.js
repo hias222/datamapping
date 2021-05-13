@@ -32,7 +32,8 @@ const actions = {
     LENEX: 'lenex',
     CONFIGURATION: 'configuration',
     STARTLIST: 'startlist',
-    TIME: 'time'
+    TIME: 'time',
+    RESTART: 'restart'
 }
 
 exports.parseColoradoData = function (message) {
@@ -97,6 +98,9 @@ exports.parseColoradoData = function (message) {
                 var jsonlenex = "{ \"type\": \"lenex\", \"value\": \"" + getMessage(message) + "\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
                 return JSON.parse(jsonlenex);
                 break;
+            case actions.RESTART:
+                console.log("restart --- to be implemented ")
+                process.exit(0);
             case actions.CONFIGURATION:
                 var configuration = getMessage(message)
                 if (getMessageWord1(message) == "event_type") {
@@ -140,15 +144,13 @@ async function getNewLenexFile(filename) {
         console.log("<incoming> load new file " + filename)
         fs.access(lenexfile, fs.F_OK, (err) => {
             if (err) {
-                console.log("<incoming> not exists ")
-                console.log(lenexfile)
+                console.log("<incoming> extract not exists " + lenexfile)
                 console.error(err);
                 //mqttMessageSender.sendMessage("lenex not exists " + lenexfile)
-
                 return;
             }
             // file exists
-            console.log("<incoming> exist " + lenexfile)
+            console.log("<incoming> use lxf " + lenexfile)
 
             fs.createReadStream(lenexfile)
                 .pipe(unzipper.Extract({ path: destlenexpath }))
@@ -167,12 +169,10 @@ async function getNewLenexFile(filename) {
                             return;
                         }
                         // file exists
-                        console.log("<incoming> exist " + destpath)
-                        console.log("<incoming> old " + JSON.stringify(myEvent.getCompetitionName()))
-                        console.log("<incoming> switch to  " + destfilename)
+                        console.log("<incoming> old event " + JSON.stringify(myEvent.getCompetitionName()))
+                        console.log("<incoming> switch to " + destfilename)
                         myEvent.updateFile(destfilename)
-                        console.log("<incoming> new " + myEvent.filename)
-                        console.log("<incoming> new " + JSON.stringify(myEvent.getCompetitionName()))
+                        console.log("<incoming> new event " + JSON.stringify(myEvent.getCompetitionName()))
                         mqttMessageSender.sendMessage("lenex updated " + myEvent.filename)
                     })
                 })

@@ -1,6 +1,5 @@
 var express = require("express");
 var cors = require('cors');
-var bodyParser = require("body-parser");
 var app = express();
 var router = express.Router();
 var mqttRawHandler = require('./mqtt/mqtt_handler');
@@ -10,21 +9,19 @@ var health = require('./data/health')
 
 require('dotenv').config();
 
-const path = __dirname + '/views/';
+// const path = __dirname + '/views/';
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 app.use(cors());
 app.options('*', cors());
-
-//var messageMapper = new messageMapper();
 
 var mqttRawClient = new mqttRawHandler();
 mqttRawClient.connect();
 
 // Routes
 router.use(function (req,res,next) {
-  console.log('/' + req.method);
+  console.log('/' + req.method + ' ' + req.baseUrl + req.path);
   next();
 });
 
@@ -38,10 +35,10 @@ router.post("/send-mqtt", function(req, res) {
   res.status(200).send("New Message - last " + lastMessage);
 });
 
-app.post('/upload', upload)
+router.post("/upload", upload)
 
-app.use(express.static(path));
-app.use('/', router);
+// app.use(express.static(path));
+app.use('/datamapping', router);
 //app.set('view engine', 'pug');
 
 var HTTP_REST_PORT = typeof process.env.HTTP_REST_PORT !== "undefined" ? process.env.HTTP_REST_PORT : 3001;

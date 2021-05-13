@@ -5,7 +5,7 @@ require('dotenv').config();
 util = require('util');
 
 module.exports = function upload(req, res) {
-    //console.log(req);
+    console.log('upload ' + req.path);
     var form = new IncomingForm()
     
     form.parse(req);

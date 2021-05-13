@@ -62,9 +62,11 @@ class swimevent {
         }
         // update file name
         var lenex_file = properties.get("main.lenex_startlist")
-        console.log("<swim_event> old file " + lenex_file)
+        console.log("<swim_event> property old file " + lenex_file)
         properties.set("main.lenex_startlist", filename);
         properties.save(propertyfile)
+        lenex_file = properties.get("main.lenex_startlist")
+        console.log("<swim_event> property new file " + lenex_file)
     }
 
     async preparereadFile(err, data) {

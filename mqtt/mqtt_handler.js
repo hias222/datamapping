@@ -8,10 +8,14 @@ var messageMapper = new messageMapper();
 var lastMessage = '';
 var ConnectedRaw = false;
 
+//this.host = 'mqtt://localhost';
+
+
+var mqtt_local_url = typeof process.env.SOURCE_MQTT_HOST !== "undefined" ? process.env.SOURCE_MQTT_PROT + '://' + process.env.SOURCE_MQTT_HOST + ':' + process.env.SOURCE_MQTT_PORT : 'mqtt://localhost'
 var mqtt_username_local = typeof process.env.MQTT_USERNAME_LOCAL !== "undefined" ? process.env.MQTT_USERNAME_LOCAL : 'mqtt';
 var mqtt_password_local = typeof process.env.MQTT_PASSWORD_LOCAL !== "undefined" ? process.env.MQTT_PASSWORD_LOCAL : 'mqtt';
 
-var debug = process.env.MQTT_DEBUG === 'true' ? true : false; 
+var debug = process.env.MQTT_DEBUG === 'true' ? true : false;
 
 var SendMessage = '';
 
@@ -20,14 +24,14 @@ var settings = {
   username: mqtt_username_local,
   password: mqtt_password_local,
   clientId: 'handler_' + Math.random().toString(16).substr(2, 8)
-  };
+};
 
 class MqttHandler {
   constructor() {
     //super(onMessageChange);
     this.mqttClient = null;
     this.rawtopic = 'rawdata'
-    this.host = 'mqtt://localhost';
+    this.host = mqtt_local_url;
     this.connectToMqtt = this.connectToMqtt.bind(this)
     //autoBind(this);
   }
@@ -53,7 +57,7 @@ class MqttHandler {
 
     // Connection callback
     this.mqttClient.on('connect', () => {
-      console.log(`<mqtt_handle> raw client connected`);
+      console.log(`<mqtt_handle> raw client connected to ` + mqtt_local_url);
       ConnectedRaw = true;
     });
 
@@ -68,7 +72,7 @@ class MqttHandler {
     });
 
     this.mqttClient.on('close', (err) => {
-      console.log(`<mqtt_handle> raw client disconnected ` + this.host );
+      console.log(`<mqtt_handle> raw client disconnected ` + this.host);
       console.error(err)
       //SendMessage = messageMapper.mapMessage("connection abort")
       ConnectedRaw = false;

@@ -83,7 +83,7 @@ class MqttSender {
       var settings = { ...additional, ...authenication }
 
       console.log("<sender> mqtt connect " + mqttdestination);
-      console.log(additional)
+      if (this.debug) console.log(additional)
       if (this.debug) console.log(authenication)
       this.mqttClient = mqtt.connect(mqttdestination, settings);
     }
