@@ -47,17 +47,18 @@ class swimevent {
             mqttMessageSender.sendMessage("lenex failure load <swim_event initial> " + this.filename)
             console.log(Exception)
         }
-        this.preparereadFile = this.preparereadFile.bind(this);
         console.log("<swim_event> Event type " + event_type)
     }
 
     async updateFile(filename) {
         this.filename = filename
-        //var xml_data = "";
         try {
-            fs.readFile(filename, "utf8",this.preparereadFile);
+            const data = fs.readFileSync(filename, 'utf8')
+            console.log('<swim_event> ' + filename + ' read it ')
+            this.xml_string = data;
+            this.readFile();
         } catch (Exception) {
-            mqttMessageSender.sendMessage("<swim_event> <updateFile> lenex failure load" + this.filename)
+            mqttMessageSender.sendMessage("<swim_event> <updateFile> lenex failure load " + this.filename)
             console.log(Exception)
         }
         // update file name
@@ -67,14 +68,6 @@ class swimevent {
         properties.save(propertyfile)
         lenex_file = properties.get("main.lenex_startlist")
         console.log("<swim_event> property new file " + lenex_file)
-    }
-
-    async preparereadFile(err, data) {
-        if (err) {
-            console.log(err)
-        }
-        this.xml_string = data;
-        this.readFile();
     }
 
     readFile() {

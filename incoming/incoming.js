@@ -159,25 +159,29 @@ async function getNewLenexFile(filename) {
                     console.log(err)
                     mqttMessageSender.sendMessage("lenex error extract " + lenexfile)
                 })
+                //.promise()
                 .on('finish', (success) => {
                     console.log("<incoming> success extract")
-
+                })
+                .on('close', () =>{
+                    console.log("<incoming> extract close finish")
                     fs.access(destpath, fs.F_OK, (err) => {
                         if (err) {
                             console.log("<incoming> not exists " + destpath)
                             console.error(err);
                             return;
                         }
-                        // file exists
                         console.log("<incoming> old event " + JSON.stringify(myEvent.getCompetitionName()))
                         console.log("<incoming> switch to " + destfilename)
                         myEvent.updateFile(destfilename)
                         console.log("<incoming> new event " + JSON.stringify(myEvent.getCompetitionName()))
                         mqttMessageSender.sendMessage("lenex updated " + myEvent.filename)
-                        process.env.exit(0)
                     })
+                    
                 })
         });
+
+        
     } catch (Exception) {
         console.log("<incoming> error extract ")
         console.log(Exception)
@@ -216,7 +220,7 @@ function getTimeState(message) {
     var words = message.toString().split(' ');
     try {
         var time = words[1]
-        if (time === "00:00,0"){
+        if (time === "00:00,0") {
             race_running = false;
             console.log("--stop");
         } else {
