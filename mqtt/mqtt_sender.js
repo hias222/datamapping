@@ -1,4 +1,7 @@
 const mqtt = require('mqtt');
+const mqttConfig = require ("./connect/mqttSettings");
+const connectFactory = require("./connect/connectFactory");
+
 require('dotenv').config()
 
 var sendsuccess = false;
@@ -16,6 +19,7 @@ class MqttSender {
     this.authenticationPWD = typeof process.env.DEST_MQTT_PWD !== "undefined" ? true : false;
 
     this.debug = process.env.MQTT_SENDER_DEBUG === 'true' ? true : false;
+  
   }
 
   connect() {
@@ -78,20 +82,8 @@ class MqttSender {
       this.mqttClient = mqtt.connect(wshosthost, settings);
 
     } else {
-
-      var mqttport = typeof process.env.DEST_MQTT_PORT !== "undefined" ? process.env.DEST_MQTT_PORT : 1883
-      var mqttdestination = typeof process.env.DEST_MQTT_HOST !== "undefined" ? 'mqtt://' + process.env.DEST_MQTT_HOST + ":" + mqttport : 'mqtt://localhost:' + mqttport;
-
-      var additional = {
-        keepalive: 2000
-      }
-
-      var settings = { ...additional, ...authenication }
-
-      console.log("<sender> local mqtt connect " + mqttdestination);
-      if (this.debug) console.log(additional)
-      if (this.debug) console.log(authenication)
-      this.mqttClient = mqtt.connect(mqttdestination, settings);
+      this.mqttClient = connectFactory.createConnect("Mqtt", mqttConfig.mqttDestination, mqttConfig.mqttSettings
+    );
     }
 
     // Mqtt error calback
@@ -129,7 +121,7 @@ class MqttSender {
         console.log(err)
       }
     })
-    if (this.debug) console.log('<sender ' + this.senderMode + ' > ' + message );
+    if (this.debug) console.log('<sender ' + this.senderMode + ' > ' + message);
     return sendsuccess
   }
 }
