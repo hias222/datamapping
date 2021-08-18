@@ -9,6 +9,8 @@ var PropertyReader = require('properties-reader')
 
 require('dotenv').config();
 
+var event_debug = process.env.MQTT_EVENT_DEBUG === 'true' ? true : false;
+
 var propertyfile = __dirname + "/../" + process.env.PROPERTY_FILE;
 var properties = PropertyReader(propertyfile)
 
@@ -185,21 +187,21 @@ class swimevent {
             actual_heat + "\" }"
         try {
             var lastswimmer = this.getSwimmerHeat(internalheadID, lane);
-            console.log("<swim_event> lastswimmer")
+            if (event_debug) console.log("<swim_event> lastswimmer")
             //console.log(lastswimmer)
             //var searchstring = "[?lane == '" + lane + "']"
             //var tmp = jmespath.search(lastswimmers, searchstring);
             //[].relay[][].RELAYPOSITION[].ATTR
             var swimmer = typeof lastswimmer[0] !== "undefined" ? lastswimmer[0] : JSON.parse(emptylane);
             if (typeof swimmer.athleteid !== "undefined") {
-                console.log("<swim_event> type single")
+                if (event_debug) console.log("<swim_event> type single")
                 var club = this.getSwimmerClub(lastswimmer[0].athleteid)
                 return { ...swimmer, ...club[0], ...JSON.parse(emptylane) };
             } else if (typeof swimmer.round !== "undefined") {
                 console.log("<swim_event> type relay")
                 return { ...JSON.parse(emptylane), ...swimmer };
             } else {
-                console.log("<swim_event> type nothing")
+                if (event_debug) console.log("<swim_event> type nothing")
                 return swimmer;
             }
         } catch (err) {
@@ -237,7 +239,7 @@ class swimevent {
     }
 
     getSingleSwimmerHeat(internalHeatID, lane) {
-        console.log("<swim_event> get swimmer for internalheatid " + internalHeatID + " no relay lane " + lane)
+        if (event_debug) console.log("<swim_event> get swimmer for internalheatid " + internalHeatID + " no relay lane " + lane)
         var searchstring = "[?ENTRIES[?ENTRY[?ATTR.heatid == '" + internalHeatID + "']]] " // | [?ENTRIES[?ENTRY[?ATTR.lane == '" + lane + "']]]"
         var tmp = jmespath.search(event_swimmer, searchstring);
         //console.log(tmp[0].ENTRIES[0].ENTRY)

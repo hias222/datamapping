@@ -9,15 +9,17 @@ class MqttSender {
     this.mqttClient = null;
     this.mqtttopic = typeof process.env.DEST_MQTT_TOPIC !== "undefined" ? process.env.DEST_MQTT_TOPIC : 'mainchannel';
 
+    this.senderMode = 'local'
+
     this.authenticationAzure = typeof process.env.DEST_MQTT_DEVICEID !== "undefined" ? true : false;
     this.authenticationWS = process.env.DST_USE_WS === 'true' ? true : false;
     this.authenticationPWD = typeof process.env.DEST_MQTT_PWD !== "undefined" ? true : false;
 
-    this.debug = process.env.MQTT_DEBUG === 'true' ? true : false; 
+    this.debug = process.env.MQTT_SENDER_DEBUG === 'true' ? true : false;
   }
 
   connect() {
-    
+
     var clientId = 'senderjs_' + Math.random().toString(16).substr(2, 8)
     var mqtt_username_dst = process.env.DEST_MQTT_USER;
     var mqtt_password_dst = process.env.DEST_MQTT_PWD;
@@ -35,6 +37,8 @@ class MqttSender {
     }
 
     if (this.authenticationAzure) {
+
+      this.senderMode = 'Azure'
 
       var username = process.env.DEST_MQTT_HOST + "/" + process.env.DEST_MQTT_DEVICEID + "/?api-version=2018-06-30"
       var azurehost = "mqtts://" + process.env.DEST_MQTT_HOST + ":8883"
@@ -56,6 +60,8 @@ class MqttSender {
       });
 
     } else if (this.authenticationWS) {
+
+      this.senderMode = 'WS'
 
       var wsmqttport = typeof process.env.DEST_MQTT_PORT !== "undefined" ? process.env.DEST_MQTT_PORT : 9001
       var wshosthost = typeof process.env.DEST_MQTT_HOST !== "undefined" ? 'ws://' + process.env.DEST_MQTT_HOST + ':' + wsmqttport : 'ws://localhost:' + wsmqttport
@@ -82,12 +88,11 @@ class MqttSender {
 
       var settings = { ...additional, ...authenication }
 
-      console.log("<sender> mqtt connect " + mqttdestination);
+      console.log("<sender> local mqtt connect " + mqttdestination);
       if (this.debug) console.log(additional)
       if (this.debug) console.log(authenication)
       this.mqttClient = mqtt.connect(mqttdestination, settings);
     }
-
 
     // Mqtt error calback
     this.mqttClient.on('error', (err) => {
@@ -124,6 +129,7 @@ class MqttSender {
         console.log(err)
       }
     })
+    if (this.debug) console.log('<sender ' + this.senderMode + ' > ' + message );
     return sendsuccess
   }
 }

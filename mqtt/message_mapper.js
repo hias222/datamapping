@@ -10,6 +10,9 @@ var lanemessages = [];
 
 require('dotenv').config();
 
+var mapper_debug = process.env.MQTT_MAPPER_DEBUG === 'true' ? true : false;
+
+
 //var lanes = 8;
 var lanes = typeof process.env.NUMBER_LANES !== "undefined" ? process.env.NUMBER_LANES : 8;
 
@@ -28,32 +31,32 @@ function storeLaneData(lane, laneraw) {
 class MessageMapper {
   constructor() {
     mqttSender.connect();
-    console.log("<mapper> use " + lanes + " lanes")
+    if (mapper_debug) console.log("<mapper> use " + lanes + " lanes")
   }
 
   // Sends a mqtt message to topic: mytopic
   async mapMessage(message) {
     try {
-      console.log("<message_mapper> beginn parse")
+      if (mapper_debug) console.log("<message_mapper> beginn parse")
       var newmessage = incoming.parseColoradoData(message)
-      console.log("<message_mapper> aditional steps check")
+      if (mapper_debug) console.log("<message_mapper> aditional steps check")
       if (newmessage != null) {
-        console.log("<message_mapper> generate message")
+        if (mapper_debug) console.log("<message_mapper> generate message")
         var stringnewmessage = JSON.stringify(newmessage)
-        console.log("<mapper> datamapping mapper: " + stringnewmessage)
+        if (mapper_debug) console.log("<mapper> datamapping mapper: " + stringnewmessage)
         try {
           if (newmessage.type !== "lane") {
             sendStatus = mqttSender.sendMessage(stringnewmessage);
           } else if (race_running) {
             sendStatus = mqttSender.sendMessage(stringnewmessage);
-          } 
+          }
 
-          if (!race_running){
+          if (!race_running) {
             race_running = incoming.getTimeState()
           }
 
           if (newmessage.type === "header") {
-            console.log("<mapper> message header")
+            if (mapper_debug) console.log("<mapper> message header")
             if (newmessage.event != lastEvent || newmessage.heat != lastHeat) {
               lastEvent = newmessage.event
               lastHeat = newmessage.heat

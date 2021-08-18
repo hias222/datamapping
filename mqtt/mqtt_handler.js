@@ -57,7 +57,7 @@ class MqttHandler {
 
     // Connection callback
     this.mqttClient.on('connect', () => {
-      console.log(`<mqtt_handle> raw client connected to ` + mqtt_local_url);
+      if (debug) console.log(`<mqtt_handle> raw client connected to ` + mqtt_local_url);
       ConnectedRaw = true;
     });
 
@@ -66,7 +66,7 @@ class MqttHandler {
 
     // When a message arrives, console.log it
     this.mqttClient.on('message', function (topic, message) {
-      console.log("<mqtt_handle> datamapping incoming " + message.toString());
+      if (debug) console.log("<mqtt_handle> datamapping incoming " + message.toString());
       SendMessage = messageMapper.mapMessage(message)
       lastMessage = message;
     });

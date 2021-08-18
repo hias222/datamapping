@@ -8,6 +8,9 @@ var MqttMessageSender = require('../mqtt/mqtt_message_sender')
 var mqttMessageSender = new MqttMessageSender()
 
 require('dotenv').config();
+
+var incoming_debug = process.env.MQTT_INCOMING_DEBUG === 'true' ? true : false;
+
 var propertyfile = __dirname + "/../" + process.env.PROPERTY_FILE;
 console.log("<incoming> using " + propertyfile);
 var properties = PropertyReader(propertyfile)
@@ -38,7 +41,7 @@ const actions = {
 
 exports.parseColoradoData = function (message) {
     var messagetype = getMessageType(message.toString());
-    console.log('<incoming> Type: ' + messagetype)
+    if (incoming_debug) console.log('<incoming> Type: ' + messagetype)
     try {
         switch (messagetype) {
             case actions.HEADER:
@@ -286,20 +289,20 @@ function getMessageWord2(message) {
 function getLaneNumber(message) {
     var words = message.toString().split(' ');
     //header wk heat
-    console.log("(incoming.js)lane: " + words[1]);
+    if (incoming_debug) console.log("(incoming.js)lane: " + words[1]);
     return words[1]
 }
 
 function getPlace(message) {
     var words = message.toString().split(' ');
-    console.log("(place)lane: " + words[3]);
+    if (incoming_debug) console.log("(place)lane: " + words[3]);
     return words[3]
 }
 
 function getTime(message) {
     var words = message.toString().split(' ');
     //header wk heat
-    console.log("(time)lane: " + words[2]);
+    if (incoming_debug) console.log("(time)lane: " + words[2]);
     return words[2]
 }
 

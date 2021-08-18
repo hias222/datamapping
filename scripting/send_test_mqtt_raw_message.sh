@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MQTT_HOST=localhost
+MQTT_HOST=ubuntu
 RAW_TOPIC=rawdata
 
 RANDOM_TIME="1:1,1"
