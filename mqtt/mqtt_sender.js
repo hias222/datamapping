@@ -10,11 +10,19 @@ class MqttSender {
   constructor() {
     this.mqttClient = null;
     this.debug = process.env.MQTT_SENDER_DEBUG === 'true' ? true : false;
+    this.mqtttopic = typeof process.env.DEST_MQTT_TOPIC !== "undefined" ? process.env.DEST_MQTT_TOPIC : 'mainchannel';
+
+    this.mqttmode = typeof process.env.DEST_MQTT_MODE !== "undefined" ? process.env.DEST_MQTT_MODE : 'MQTT';
   }
 
   connect() {
 
-    this.mqttClient = connectFactory.createConnect("Mqtt", mqttConfig.mqttDestination, mqttConfig.mqttSettings);
+    if (this.mqttmode === 'AWS') {
+      this.mqttClient = connectFactory.createConnect("AWS", mqttConfig.mqttDestination, mqttConfig.mqttSettings);
+      this.mqttClient.subscribe(this.mqtttopic)
+    } else {
+      this.mqttClient = connectFactory.createConnect("Mqtt", mqttConfig.mqttDestination, mqttConfig.mqttSettings);
+    }
 
     // Mqtt error calback
     this.mqttClient.on('error', (err) => {
@@ -46,12 +54,14 @@ class MqttSender {
 
   // Sends a mqtt message to topic: mytopic
   sendMessage(message) {
+
     this.mqttClient.publish(this.mqtttopic, message, function (err) {
       if (err) {
         console.log(err)
       }
     })
-    if (this.debug) console.log('<sender ' + this.senderMode + ' > ' + message);
+
+    if (this.debug) console.log('<sender> ' + message);
     return sendsuccess
   }
 }

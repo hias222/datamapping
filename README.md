@@ -38,6 +38,20 @@ npm i
 node app.js
 ```
 
+## AWS
+
+### check policies
+
+```bash
+aws iot get-policy --policy-name colorado-Policy --output text
+```
+
+Add mainchannel topic to policy 
+
+* create policy
+* or change policy
+* add policy ad certificate
+
 ## Detailed Tests Start MQTT for test
 
 ### Mosquito Folder

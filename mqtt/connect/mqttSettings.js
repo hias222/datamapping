@@ -5,7 +5,6 @@ var mqttpath = '/wsmqtt'
 var mqttmode = typeof process.env.DEST_MQTT_MODE !== "undefined" ? process.env.DEST_MQTT_MODE : 'MQTT';
 
 var mqtttopic = typeof process.env.DEST_MQTT_TOPIC !== "undefined" ? process.env.DEST_MQTT_TOPIC : 'mainchannel';
-var authenticationAzure = typeof process.env.DEST_MQTT_DEVICEID !== "undefined" ? true : false;
 var authenticationWS = process.env.DST_USE_WS === 'true' ? true : false;
 var authenticationPWD = typeof process.env.DEST_MQTT_PWD !== "undefined" ? true : false;
 

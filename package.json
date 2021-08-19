@@ -24,6 +24,7 @@
   "homepage": "https://github.com/cbh6/express-api-mqtt-example#readme",
   "dependencies": {
     "auto-bind": "^2.1.1",
+    "aws-iot-device-sdk": "^2.2.11",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
