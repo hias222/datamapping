@@ -1,29 +1,14 @@
-### Configuration for Datamapping
-# Default vlues are # value= 
-
-####
-## Application Data
-####
-
 NUMBER_LANES=8
 PROPERTY_FILE=property.ini
 LENEX_BASE_DIR=/tmp
 
 HTTP_REST_PORT=3001
 
-####
-## DEBGUG
-####
-
 MQTT_DEBUG=false
 MQTT_SENDER_DEBUG=true
 MQTT_INCOMING_DEBUG=false
 MQTT_EVENT_DEBUG=false
 MQTT_MAPPER_DEBUG=false
-
-####
-## MQTT SOURCE
-####
 
 # all three or nothing must be set
 SOURCE_MQTT_HOST=ubuntu
@@ -36,10 +21,7 @@ SOURCE_MQTT_PROT=mqtt
 MQTT_USERNAME_LOCAL=mqtt
 MQTT_PASSWORD_LOCAL=welcome1
 
-######################
 # DESTINATION 
-########################
-
 #
 # If deviceID is set switch to AZURE mode 
 # "mqtts://" + DEST_MQTT_HOST + ":8883"
@@ -48,8 +30,6 @@ MQTT_PASSWORD_LOCAL=welcome1
 # 'ws://' + DEST_MQTT_HOST + ':' + DEST_MQTT_PORT
 # 
 
-# Dest Mode local, AWS, AZURE
-# DEST_MQTT_MODE=local
 # DEST_MQTT_HOST=localhost
 # DEST_MQTT_PORT=1883/9001
 # DEST_MQTT_USER=<>
@@ -66,10 +46,10 @@ DEST_MQTT_HOST=ubuntu
 
 
 # Azure
-# DEST_MQTT_HOST=colorado.azure-devices.net
-# DEST_MQTT_DEVICEID="my01"
-# DEST_MQTT_TOPIC="devices/my01/messages/events/"
+#DEST_MQTT_HOST=colorado.azure-devices.net
+#DEST_MQTT_DEVICEID="my01"
+#DEST_MQTT_TOPIC="devices/my01/messages/events/"
 # SAS Token - get from vsc
-# DEST_MQTT_PWD="SharedAccess...159916"
+#DEST_MQTT_PWD="SharedAccess...159916"
 
 
