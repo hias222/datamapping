@@ -19,7 +19,7 @@ var lanes = typeof process.env.NUMBER_LANES !== "undefined" ? process.env.NUMBER
 
 function storeLaneData(lane, laneraw) {
   try {
-    console.log("<message_mapper> store lane " + lane + ": " + laneraw)
+    if (mapper_debug) console.log("<message_mapper> store lane " + lane + ": " + laneraw)
     var lanenumber = (lane - 1)
     var number_of_elements_to_remove = 1
     lanemessages.splice(lanenumber, number_of_elements_to_remove, laneraw);
@@ -61,7 +61,7 @@ class MessageMapper {
               lastEvent = newmessage.event
               lastHeat = newmessage.heat
               lanemessages = []
-              console.log("<mapper> Store heat")
+              console.log("<mapper> heat change - stored")
               for (var i = 0; i < lanes; i++) {
                 //we send all lanes
                 var incomingmsg = "lane " + (i + 1);

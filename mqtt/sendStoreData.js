@@ -45,8 +45,8 @@ function storeBaseData(message, mqttSender) {
             // we send it to datahub
             running = false
             var newmessage = { ...headermessage, lanes: lanemessages }
-            if (this.debug)  console.log(newmessage)
-            mqttSender.publish(storetopic, message, function (err) {
+            if (debug)  console.log(JSON.stringify(JSON.stringify(newmessage)))
+            mqttSender.publish(storetopic, JSON.stringify(newmessage), function (err) {
                 if (err) {
                   console.log(err)
                 }

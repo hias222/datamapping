@@ -68,6 +68,9 @@ if (mqttmode === 'AZURE') {
     mqttSettings = wsSettings
     mqttDestination = wshosthost
 
+} else if (mqttmode === 'AWS') {
+    mqttSettings = '{certs defined in code}'
+    mqttDestination = '{IoT Core}'
 } else {
 
     var localSettings = { ...additional, ...authenication }
@@ -78,7 +81,7 @@ if (mqttmode === 'AZURE') {
     mqttDestination = localDestination
 }
 
-console.log('<sender> ' + mqttmode + ' Destination ' + mqttDestination);
+console.log('<sender> mode ' + mqttmode + ' Destination ');
 if (debug) console.log(mqttSettings)
 
 module.exports = {

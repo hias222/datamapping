@@ -1,6 +1,7 @@
 const mqtt = require('mqtt');
 const mqttConfig = require("./connect/mqttSettings");
 const connectFactory = require("./connect/connectFactory");
+const storeData = require("./sendStoreData")
 
 require('dotenv').config()
 
@@ -11,7 +12,6 @@ class MqttSender {
     this.mqttClient = null;
     this.debug = process.env.MQTT_SENDER_DEBUG === 'true' ? true : false;
     this.mqtttopic = typeof process.env.DEST_MQTT_TOPIC !== "undefined" ? process.env.DEST_MQTT_TOPIC : 'mainchannel';
-
     this.mqttmode = typeof process.env.DEST_MQTT_MODE !== "undefined" ? process.env.DEST_MQTT_MODE : 'MQTT';
   }
 
@@ -54,13 +54,14 @@ class MqttSender {
 
   // Sends a mqtt message to topic: mytopic
   sendMessage(message) {
-
+    //send to MQTT
     this.mqttClient.publish(this.mqtttopic, message, function (err) {
       if (err) {
         console.log(err)
       }
     })
-
+    //send for store
+    storeData.storeBaseData(message, this.mqttClient)
     if (this.debug) console.log('<sender> ' + message);
     return sendsuccess
   }
