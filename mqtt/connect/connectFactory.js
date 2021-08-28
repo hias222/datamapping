@@ -1,4 +1,4 @@
-const MQTT = require('MQTT');
+const MQTT = require('mqtt');
 
 const AWS = require('aws-iot-device-sdk/device')
 
@@ -14,11 +14,11 @@ node node_modules/aws-iot-device-sdk/examples/device-example.js
 const connect = { MQTT, AWS };
 
 module.exports = {
-    createConnect(type, MQTTdestination, settings) {
+    createConnect(type, mqttdestination, settings) {
         const ConnectType = connect[type];
-        //MQTT.connect(attributes)
+        //Mqtt.connect(attributes)
         console.log('<connectFactory> attributes: ')
-        console.log(MQTTdestination)
+        console.log(mqttdestination)
         console.log(settings)
         if (type === 'AWS') {
             const AWSDevice = ConnectType({
@@ -42,10 +42,10 @@ module.exports = {
                 debug: args.Debug
                 */
             });
-            //AWSDevice.subscribe(MQTTtopic)
+            //AWSDevice.subscribe(mqtttopic)
             return AWSDevice
         } else {
-            return ConnectType.connect(MQTTdestination, settings)
+            return ConnectType.connect(mqttdestination, settings)
         }
 
     }
