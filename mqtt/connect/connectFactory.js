@@ -13,9 +13,6 @@ node node_modules/aws-iot-device-sdk/examples/device-example.js
 
 const connect = { Mqtt, AWS };
 
-var mqtttopic = typeof process.env.DEST_MQTT_TOPIC !== "undefined" ? process.env.DEST_MQTT_TOPIC : 'mainchannel';
-
-
 module.exports = {
     createConnect(type, mqttdestination, settings) {
         const ConnectType = connect[type];
@@ -29,7 +26,8 @@ module.exports = {
                 keyPath: 'aws/colorado.private.key',
                 certPath: 'aws/colorado.cert.pem',
                 caPath: 'aws/root-CA.crt',
-                clientId: 'sdk-nodejs-d9122ba1-c0df-4470-a82f-6cd8b7c04e21'
+                clientId: 'sdk-nodejs-d9122ba1-c0df-4470-a82f-6cd8b7c04e21',
+                debug: true
                 /*
                 keyPath: args.privateKey,
                 certPath: args.clientCert,

@@ -46,8 +46,10 @@ function storeBaseData(message, mqttSender) {
             running = false
             var newmessage = { ...headermessage, lanes: lanemessages }
             if (debug)  console.log(JSON.stringify(JSON.stringify(newmessage)))
+            //storetopic
             mqttSender.publish(storetopic, JSON.stringify(newmessage), function (err) {
                 if (err) {
+                  console.log('<sendStoreData> error publish')
                   console.log(err)
                 }
               })

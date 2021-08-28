@@ -15,4 +15,4 @@ send_main_message(){
 }
 
 send_main_message "$STORE_MESSAGE"
-send_main_message "$STORE_MESSAGE_2"
+# send_main_message "$STORE_MESSAGE_2"
