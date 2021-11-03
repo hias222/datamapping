@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#MQTT_HOST=localhost
 MQTT_HOST=ubuntu
 RAW_TOPIC=rawdata
 
@@ -21,19 +22,33 @@ create_random_time() {
     RANDOM_TIME=${minutes}:${seconds},${ms}
 }
 
-send_raw_message stop
 send_raw_message clock
-
+send_raw_message stop
 sleep 1
 create_random_time
-   
-send_raw_message clock
-sleep 1
-    
+     
 send_raw_message "header 0 0"
 sleep 1
 
-send_raw_message "header 1 1"
-sleep 5
+send_raw_message "header 1 2"
+sleep 1
 
-       
+send_raw_message start
+sleep 4
+
+# laps
+for (( i=1; i<=$NUMBER_LANES; i++ ))
+do
+create_random_time
+send_raw_message "lane $i ${RANDOM_TIME} 0"
+done
+
+sleep 17
+
+# laps
+for (( i=1; i<=$NUMBER_LANES; i++ ))
+do
+create_random_time
+send_raw_message "lane $i ${RANDOM_TIME} $i"
+sleep 1
+done

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #MQTT_HOST=localhost
-MQTT_HOST=192.168.178.174
+MQTT_HOST=ubuntu
 RAW_TOPIC=rawdata
 
 RANDOM_TIME="1:1,1"
@@ -28,10 +28,10 @@ sleep 1
 create_random_time
      
 send_raw_message "header 0 0"
-sleep 5
+sleep 1
 
 send_raw_message "header 1 1"
-sleep 5
+sleep 2
 
 send_raw_message start
 sleep 4
@@ -41,4 +41,5 @@ for (( i=1; i<=$NUMBER_LANES; i++ ))
 do
 create_random_time
 send_raw_message "lane $i ${RANDOM_TIME} 0"
+sleep 1
 done
