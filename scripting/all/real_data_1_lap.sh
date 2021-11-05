@@ -26,12 +26,10 @@ send_raw_message clock
 send_raw_message stop
 sleep 1
 create_random_time
-     
-send_raw_message "header 1 1"
-sleep 1
+send_raw_message stop
 
 send_raw_message "header 1 2"
-sleep 1
+sleep 15
 
 send_raw_message start
 sleep 10
@@ -65,3 +63,10 @@ send_raw_message "lane 7 1:02,11 6"
 send_raw_message "lane 1 1:02,12 7"
 sleep 10
 send_raw_message "lane 8 1:13,13 8"
+
+sleep 3
+
+send_raw_message stop
+sleep 5
+send_raw_message "header 1 3"
+
