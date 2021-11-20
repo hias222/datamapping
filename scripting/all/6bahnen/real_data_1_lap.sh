@@ -24,9 +24,6 @@ create_random_time() {
 
 send_raw_message clock
 send_raw_message stop
-sleep 1
-create_random_time
-send_raw_message stop
 
 send_raw_message "header 1 2"
 sleep 15

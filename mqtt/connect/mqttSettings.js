@@ -14,7 +14,6 @@ var clientId = 'senderjs_' + Math.random().toString(16).substr(2, 8)
 var mqtt_username_dst = process.env.DEST_MQTT_USER;
 var mqtt_password_dst = process.env.DEST_MQTT_PWD;
 
-
 if (authenticationPWD) {
     var authenication = {
         clientId: clientId,
