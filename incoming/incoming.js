@@ -36,7 +36,8 @@ const actions = {
     CONFIGURATION: 'configuration',
     STARTLIST: 'startlist',
     TIME: 'time',
-    RESTART: 'restart'
+    RESTART: 'restart',
+    ROUND: 'round'
 }
 
 exports.parseColoradoData = function (message) {
@@ -101,6 +102,10 @@ exports.parseColoradoData = function (message) {
                 var jsonlenex = "{ \"type\": \"lenex\", \"value\": \"" + getMessage(message) + "\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
                 return JSON.parse(jsonlenex);
                 break;
+            case actions.ROUND:
+                console.log("new round ")
+                var jsonround = "{ \"type\": \"round\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
+                return JSON.parse(jsonround);
             case actions.RESTART:
                 console.log("restart --- to be implemented ")
                 process.exit(0);
@@ -166,7 +171,7 @@ async function getNewLenexFile(filename) {
                 .on('finish', (success) => {
                     console.log("<incoming> success extract")
                 })
-                .on('close', () =>{
+                .on('close', () => {
                     console.log("<incoming> extract close finish")
                     fs.access(destpath, fs.F_OK, (err) => {
                         if (err) {
@@ -180,11 +185,11 @@ async function getNewLenexFile(filename) {
                         console.log("<incoming> new event " + JSON.stringify(myEvent.getCompetitionName()))
                         mqttMessageSender.sendMessage("lenex updated " + myEvent.filename)
                     })
-                    
+
                 })
         });
 
-        
+
     } catch (Exception) {
         console.log("<incoming> error extract ")
         console.log(Exception)

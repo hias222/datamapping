@@ -101,6 +101,9 @@ class MessageMapper {
             }
           } else if (newmessage.type === "lane") {
             storeLaneData(newmessage.lane, message);
+          } else if (newmessage.type === "round") {
+            console.log("<message_mapper> round " + lanedata);
+            mqttSender.sendMessage(JSON.stringify(newmessage));
           } else if (newmessage.type === "clear") {
             console.log("<message_mapper> clear race")
             for (let lanedata of lanemessages) {
