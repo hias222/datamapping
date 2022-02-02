@@ -107,6 +107,7 @@ class MessageMapper {
               console.log("<message_mapper> race out " + lanedata);
               var storedlanedata = incoming.parseColoradoData(lanedata.toString())
               storedlanedata.time = ''
+              storedlanedata.finishtime = ''
               storedlanedata.place = ''
               mqttSender.sendMessage(JSON.stringify(storedlanedata));
             }

@@ -22,13 +22,13 @@ create_random_time() {
     RANDOM_TIME=${minutes}:${seconds},${ms}
 }
 
-send_raw_message clock
-send_raw_message stop
+# send_raw_message clock
+#send_raw_message stop
 sleep 1
 create_random_time
-send_raw_message stop
+#send_raw_message stop
 
-send_raw_message "header 1 2"
+send_raw_message "header 1 1"
 sleep 15
 
 send_raw_message start
@@ -68,5 +68,5 @@ sleep 3
 
 send_raw_message stop
 sleep 5
-send_raw_message "header 1 3"
+send_raw_message "header 1 2"
 
