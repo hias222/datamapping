@@ -104,7 +104,7 @@ exports.parseColoradoData = function (message) {
                 break;
             case actions.ROUND:
                 console.log("new round ")
-                var jsonround = "{ \"type\": \"round\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
+                var jsonround = "{ \"type\": \"round\", \"value\": \"" + getRound(message) + "\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
                 return JSON.parse(jsonround);
             case actions.RESTART:
                 console.log("restart --- to be implemented ")
@@ -271,6 +271,19 @@ function getEvent(message) {
     try {
         var numberevent = parseInt(words[1])
         return numberevent
+    } catch (err) {
+        console.log(err)
+        return 0
+    }
+}
+
+function getRound(message) {
+    var words = message.toString().split(' ');
+    //header wk heat
+    console.log("Round: -" + words[1] + "-");
+    try {
+        var numberround = parseInt(words[1])
+        return numberround
     } catch (err) {
         console.log(err)
         return 0
