@@ -58,6 +58,7 @@ Add mainchannel topic to policy
 
 ```bash
 docker run -d -p 1883:1883 -p 9001:9001 -v $(pwd)/mosquitto.conf:/mosqtto/config/mosquitto.conf -v /mosquitto/data -v $(pwd)/log:/mosquitto/log eclipse-mosquitto
+# /usr/local/opt/mosquitto/sbin/mosquitto
 ```
 
 ## Docker
