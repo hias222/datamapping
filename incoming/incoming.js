@@ -81,7 +81,7 @@ exports.parseColoradoData = function (message) {
                 return JSON.parse(jsonstartlist);
                 break;
             case actions.VIDEO:
-                var jsonvideo = "{ \"type\": \"video\", \"version\": \"" + getEvent(message).toString() + "\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
+                var jsonvideo = "{ \"type\": \"video\", \"version\": \"" + message.toString() + "\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
                 return JSON.parse(jsonvideo);
                 break;
             case actions.MESSAGE:
