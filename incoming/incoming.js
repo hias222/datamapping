@@ -81,7 +81,7 @@ exports.parseColoradoData = function (message) {
                 return JSON.parse(jsonstartlist);
                 break;
             case actions.VIDEO:
-                var jsonvideo = "{ \"type\": \"video\", \"version\": \"" + getMessage(message).toString() + "\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
+                var jsonvideo = "{ \"type\": \"video\", \"version\": \"" + getVideoName(message).toString() + "\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
                 return JSON.parse(jsonvideo);
                 break;
             case actions.MESSAGE:
@@ -252,6 +252,13 @@ function getHeat(message) {
         console.log(err)
         return 0
     }
+}
+
+function getVideoName(messaeg){
+    var words = message.toString().split(' ');
+    //header wk heat
+    console.log("Event: -" + words[1] + "-");
+   return words[1]
 }
 
 function getMessage(message) {
