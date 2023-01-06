@@ -254,11 +254,14 @@ function getHeat(message) {
     }
 }
 
-function getVideoName(messaeg){
-    var words = message.toString().split(' ');
-    //header wk heat
-    console.log("Event: -" + words[1] + "-");
-   return words[1]
+function getVideoName(message){
+    try {
+        var newStr = message.toString().substr(message.indexOf(" ") + 1);
+        return newStr
+    } catch (err) {
+        console.log(err)
+        return ""
+    }
 }
 
 function getMessage(message) {
