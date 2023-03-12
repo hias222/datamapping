@@ -1,0 +1,42 @@
+time 00:00,0
+time 00:00,0
+stop
+header 003 002
+time 00:00,0
+round 0
+time 00:00,0
+header 003 003
+header 003 003
+start
+time 00:00,3
+time 00:03,4
+time 00:06,5
+time 00:09,6
+time 00:12,7
+lane 7 00:13,90 0
+lane 5 00:13,98 0
+lane 6 00:14,03 0
+round 1
+lane 4 00:14,42 0
+time 00:15,8
+lane 1 00:15,98 0
+lane 2 00:16,29 0
+lane 3 00:17,03 0
+lane 8 00:18,03 0
+time 00:18,9
+time 00:22,0
+time 00:25,1
+time 00:28,2
+time 00:31,3
+lane 5 00:33,91 2
+lane 6 00:33,25 1
+time 00:34,4
+lane 3 00:34,36 3
+round 2
+lane 1 00:34,98 5
+lane 4 00:34,49 4
+time 00:37,5
+lane 2 00:38,30 6
+lane 7 00:39,30 7
+lane 8 00:39,44 8
+time 00:40,6
