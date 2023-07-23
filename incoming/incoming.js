@@ -129,7 +129,7 @@ exports.parseColoradoData = function (message) {
                 var jsonbest3 = "{ \"type\": \"best3\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
                 return JSON.parse(jsonbest3);
             case actions.PRESENTLANE:
-                var presentlane = "{ \"type\": \"presentlane\", \"value\": \"" + getHeat(message) + "\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
+                var presentlane = "{ \"type\": \"presentlane\", \"value\": \"" + getRound(message) + "\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
                 return JSON.parse(presentlane);
             default:
                 console.log('Type:  not declared')
@@ -299,7 +299,7 @@ function getEvent(message) {
 function getRound(message) {
     var words = message.toString().split(' ');
     //header wk heat
-    console.log("Round: -" + words[1] + "-");
+    console.log("Round/Lane: -" + words[1] + "-");
     try {
         var numberround = parseInt(words[1])
         return numberround
