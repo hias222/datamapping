@@ -37,7 +37,9 @@ const actions = {
     STARTLIST: 'startlist',
     TIME: 'time',
     RESTART: 'restart',
-    ROUND: 'round'
+    ROUND: 'round',
+    BEST3: 'best3',
+    PRESENTLANE: 'presentlane'
 }
 
 exports.parseColoradoData = function (message) {
@@ -122,6 +124,13 @@ exports.parseColoradoData = function (message) {
                 }
                 return null
                 break;
+            case actions.BEST3:
+                console.log("BEST3")
+                var jsonbest3 = "{ \"type\": \"best3\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
+                return JSON.parse(jsonbest3);
+            case actions.PRESENTLANE:
+                var presentlane = "{ \"type\": \"round\", \"value\": \"" + getRound(message) + "\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
+                return JSON.parse(presentlane);
             default:
                 console.log('Type:  not declared')
                 break;
@@ -254,7 +263,7 @@ function getHeat(message) {
     }
 }
 
-function getVideoName(message){
+function getVideoName(message) {
     try {
         var newStr = message.toString().substr(message.indexOf(" ") + 1);
         return newStr

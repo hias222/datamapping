@@ -46,7 +46,7 @@ node app.js
 aws iot get-policy --policy-name colorado-Policy --output text
 ```
 
-Add mainchannel topic to policy 
+Add mainchannel topic to policy
 
 * create policy
 * or change policy
