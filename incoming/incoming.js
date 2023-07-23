@@ -129,7 +129,7 @@ exports.parseColoradoData = function (message) {
                 var jsonbest3 = "{ \"type\": \"best3\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
                 return JSON.parse(jsonbest3);
             case actions.PRESENTLANE:
-                var presentlane = "{ \"type\": \"round\", \"value\": \"" + getRound(message) + "\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
+                var presentlane = "{ \"type\": \"presentlane\", \"value\": \"" + getHeat(message) + "\", \"time\": \"" + Math.floor(new Date() / 1000) + "\" }"
                 return JSON.parse(presentlane);
             default:
                 console.log('Type:  not declared')
