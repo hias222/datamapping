@@ -1,0 +1,21 @@
+
+time 00:00,0
+stop
+time 00:00,0
+start
+time 00:00,3
+time 00:03,4
+lane 7 00:13,90 1
+lane 5 00:13,98 2
+lane 6 00:14,03 3
+round 1
+lane 4 00:14,03 3
+time 00:15,8
+lane 1 00:15,98 5
+lane 2 00:16,29 6
+lane 3 00:17,03 7
+lane 8 00:18,03 8
+time 00:18,9
+time 00:00,0
+stop
+time 00:00,0
