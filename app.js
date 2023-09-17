@@ -37,7 +37,7 @@ router.post("/send-mqtt", function(req, res) {
 
 router.post("/send-json", function(req, res) {
   console.log("Message: " +  JSON.stringify(req.body) )
-  mqttRawClient.sendJsonMessage(req.body)
+  mqttRawClient.sendJsonMessage(JSON.stringify(req.body))
   res.status(200).send("Json Message - "+  req.body);
 });
 
