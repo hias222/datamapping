@@ -35,6 +35,12 @@ router.post("/send-mqtt", function(req, res) {
   res.status(200).send("New Message - last " + lastMessage);
 });
 
+router.post("/send-json", function(req, res) {
+  console.log("Message: " +  JSON.stringify(req.body) )
+  mqttRawClient.sendJsonMessage(req.body.message)
+  res.status(200).send("Json Message - "+  req.body);
+});
+
 router.post("/upload", upload)
 
 // app.use(express.static(path));

@@ -31,6 +31,7 @@ class MqttHandler {
     //super(onMessageChange);
     this.mqttClient = null;
     this.rawtopic = 'rawdata'
+    this.jsontopic = typeof process.env.DEST_MQTT_TOPIC !== "undefined" ? process.env.DEST_MQTT_TOPIC : 'mainchannel';
     this.host = mqtt_local_url;
     this.connectToMqtt = this.connectToMqtt.bind(this)
     //autoBind(this);
@@ -82,6 +83,10 @@ class MqttHandler {
   // Sends a mqtt message to topic: mytopic
   sendRawMessage(message) {
     this.mqttClient.publish(this.rawtopic, message);
+  }
+
+  sendJsonMessage(message) {
+    this.mqttClient.publish(this.jsontopic, message);
   }
 
   getLastMessage() {
