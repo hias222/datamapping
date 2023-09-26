@@ -85,8 +85,8 @@ class MqttHandler {
     this.mqttClient.publish(this.rawtopic, message);
   }
 
-  sendJsonMessage(message) {
-    this.mqttClient.publish(this.jsontopic, message);
+  sendJsonMessage(message, topicnr) {
+    this.mqttClient.publish(this.jsontopic + topicnr, message);
   }
 
   getLastMessage() {
