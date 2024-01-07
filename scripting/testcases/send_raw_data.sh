@@ -1,9 +1,9 @@
 #!/bin/bash 
 
-MQTT_HOST=rockpie
+MQTT_HOST=rockpi-4b
 #MQTT_HOST=192.168.178.152
 RAW_TOPIC=rawdata
-filename=8_lanes/raw_data_2.txt
+filename=6_lanes/raw_data_1.txt
 n=1
 
 while read line; do

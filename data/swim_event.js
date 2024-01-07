@@ -196,10 +196,13 @@ class swimevent {
             if (typeof swimmer.athleteid !== "undefined") {
                 if (event_debug) console.log("<swim_event> type single")
                 var club = this.getSwimmerClub(lastswimmer[0].athleteid)
+                if (event_debug) console.log(JSON.stringify({ ...swimmer, ...club[0], ...JSON.parse(emptylane) }))
+                //{"athleteid":"14504","birthdate":"2008-01-01","firstname":"Svea","lastname":"Fischer","lane":"5","entrytime":"00:19:22.00","name":"SV Würzburg 05","code":"4339","type":"lane","event":"19","place":"undefined","finishtime":"undefined","heat":"1"}
                 return { ...swimmer, ...club[0], ...JSON.parse(emptylane) };
             } else if (typeof swimmer.round !== "undefined") {
-                console.log("<swim_event> type relay")
-                return { ...JSON.parse(emptylane), ...swimmer };
+                if (event_debug) console.log("<swim_event> type relay")
+                var newSwimmer = this.convertRelayinSwimmer(swimmer, JSON.parse(emptylane))
+                return newSwimmer;
             } else {
                 if (event_debug) console.log("<swim_event> type nothing")
                 return swimmer;
@@ -213,6 +216,17 @@ class swimevent {
                 return JSON.parse(nulllane);
             }
         }
+    }
+
+    convertRelayinSwimmer(swimmer, emptylane) {
+        // {"type":"lane","lane":"5","event":"20","place":"undefined","finishtime":"undefined","heat":"1","round":"4","code":"6695","name":"SSG Coburg","entrytime":"00:01:58.46","RELAYPOSTIONS":[[{"ATTR":{"athleteid":"14139","number":"1"}},{"ATTR":{"athleteid":"14132","number":"2"}},{"ATTR":{"athleteid":"14188","number":"3"}},{"ATTR":{"athleteid":"14176","number":"4"}}]]}
+        if (event_debug) console.log(swimmer)
+        var newSwimmer = {
+            lastname: swimmer.name,
+            firstname: "",
+            name: ""
+        }
+        return { ...emptylane, ...newSwimmer }
     }
 
 
