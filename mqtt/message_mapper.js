@@ -21,7 +21,7 @@ function storeLaneData(lane, laneraw) {
   try {
     var lanenumber = (lane - first_lane)
     var number_of_elements_to_remove = 1
-    if (mapper_debug) console.log("<message_mapper> store lane " + lane + " on list number " + lanenumber + " correct value " + correct_nummber )
+    if (mapper_debug) console.log("<message_mapper> store lane " + lane + " on list number " + lanenumber )
     lanemessages.splice(lanenumber, number_of_elements_to_remove, laneraw);
   } catch (err) {
     console.log(err)
