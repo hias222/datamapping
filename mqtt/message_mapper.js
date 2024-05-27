@@ -77,8 +77,8 @@ class MessageMapper {
             lanemessages = []
             for (var i = 0; i < lanes; i++) {
               //we send all lanes
-              var incomingmsg = "lane " + (i + first_lane);
-              storeLaneData(i + first_lane, incomingmsg);
+              var incomingmsg = "lane " + (i + parseInt(first_lane));
+              storeLaneData(i + parseInt(first_lane), incomingmsg);
               var newlanemessage = incoming.parseColoradoData(incomingmsg.toString())
               var stringnewlanemessage = JSON.stringify(newlanemessage)
               mqttSender.sendMessage(stringnewlanemessage);
