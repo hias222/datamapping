@@ -19,8 +19,7 @@ var first_lane = typeof process.env.POOL_FIRST_LANE !== "undefined" ? process.en
 
 function storeLaneData(lane, laneraw) {
   try {
-    var correct_nummber = first_lane === 1 ? 0 : 1;
-    var lanenumber = (lane - correct_nummber)
+    var lanenumber = (lane - first_lane)
     var number_of_elements_to_remove = 1
     if (mapper_debug) console.log("<message_mapper> store lane " + lane + " on list number " + lanenumber + " correct value " + correct_nummber )
     lanemessages.splice(lanenumber, number_of_elements_to_remove, laneraw);
@@ -78,8 +77,8 @@ class MessageMapper {
             lanemessages = []
             for (var i = 0; i < lanes; i++) {
               //we send all lanes
-              var incomingmsg = "lane " + (i + 1);
-              storeLaneData(i + 1, incomingmsg);
+              var incomingmsg = "lane " + (i + first_lane);
+              storeLaneData(i + first_lane, incomingmsg);
               var newlanemessage = incoming.parseColoradoData(incomingmsg.toString())
               var stringnewlanemessage = JSON.stringify(newlanemessage)
               mqttSender.sendMessage(stringnewlanemessage);
