@@ -20,11 +20,10 @@ var first_lane = typeof process.env.POOL_FIRST_LANE !== "undefined" ? process.en
 function storeLaneData(lane, laneraw) {
   try {
     var correct_nummber = first_lane === 1 ? 0 : 1;
-    var lanerawnew = parseInt(laneraw) - correct_nummber;
-    var lanenumber = (lane - 1)
+    var lanenumber = (lane - correct_nummber)
     var number_of_elements_to_remove = 1
-    if (mapper_debug) console.log("<message_mapper> store lane " + lane + " on list number " + lanenumber + " - lane real  " + lanerawnew + " ( " + laneraw + " - " + correct_nummber + ")")
-    lanemessages.splice(lanenumber, number_of_elements_to_remove, lanerawnew);
+    if (mapper_debug) console.log("<message_mapper> store lane " + lane + " on list number " + lanenumber + " correct value " + correct_nummber )
+    lanemessages.splice(lanenumber, number_of_elements_to_remove, laneraw);
   } catch (err) {
     console.log(err)
   }
