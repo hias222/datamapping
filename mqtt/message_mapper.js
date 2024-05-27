@@ -64,8 +64,8 @@ class MessageMapper {
               console.log("<mapper> heat change - stored")
               for (var i = 0; i < lanes; i++) {
                 //we send all lanes
-                var incomingmsg = "lane " + (i + 1);
-                storeLaneData(i + 1, incomingmsg);
+                var incomingmsg = "lane " + (i + parseInt(first_lane));
+                storeLaneData(i + parseInt(first_lane), incomingmsg);
                 var newlanemessage = incoming.parseColoradoData(incomingmsg.toString())
                 var stringnewlanemessage = JSON.stringify(newlanemessage)
                 mqttSender.sendMessage(stringnewlanemessage);
