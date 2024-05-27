@@ -15,14 +15,16 @@ var mapper_debug = process.env.MQTT_MAPPER_DEBUG === 'true' ? true : false;
 
 //var lanes = 8;
 var lanes = typeof process.env.NUMBER_LANES !== "undefined" ? process.env.NUMBER_LANES : 8;
-
+var first_lane = typeof process.env.POOL_FIRST_LANE !== "undefined" ? process.env.POOL_FIRST_LANE : 1;
 
 function storeLaneData(lane, laneraw) {
   try {
-    if (mapper_debug) console.log("<message_mapper> store lane " + lane + ": " + laneraw)
+    var correct_nummber = first_lane === 1 ? 0 :1; 
+    var lanerawnew = laneraw - correct_nummber;
     var lanenumber = (lane - 1)
     var number_of_elements_to_remove = 1
-    lanemessages.splice(lanenumber, number_of_elements_to_remove, laneraw);
+    if (mapper_debug) console.log("<message_mapper> store lane " + lane + ": " + lanerawnew)
+    lanemessages.splice(lanenumber, number_of_elements_to_remove, lanerawnew);
   } catch (err) {
     console.log(err)
   }
