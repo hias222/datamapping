@@ -219,8 +219,9 @@ class swimevent {
     }
 
     convertRelayinSwimmer(swimmer, emptylane) {
-        // {"type":"lane","lane":"5","event":"20","place":"undefined","finishtime":"undefined","heat":"1","round":"4","code":"6695","name":"SSG Coburg","entrytime":"00:01:58.46","RELAYPOSTIONS":[[{"ATTR":{"athleteid":"14139","number":"1"}},{"ATTR":{"athleteid":"14132","number":"2"}},{"ATTR":{"athleteid":"14188","number":"3"}},{"ATTR":{"athleteid":"14176","number":"4"}}]]}
+        // {"type":"lane","lane":"5","event":"20","place":"undefined","finishtime":"undefined","heat":"1","round":"4","code":"6695","name":"SSG Coburg","entrytime":"00:01:58.46","RELAYPOSTIONS":[[{"ATTR":{athleteid","number":"1"}},{"ATTR":{"athleteid":"14132","number":"2"}},{"ATTR":{"athleteid":"14188","number":"3"}},{"ATTR":{"athleteid":"14176","number":"4"}}]]}
         if (event_debug) console.log(swimmer)
+
         var newSwimmer = {
             lastname: swimmer.name,
             firstname: "",
@@ -236,13 +237,15 @@ class swimevent {
 
         var searchstring = "[?RELAYS[?RELAY[?ENTRIES[?ENTRY[?ATTR.heatid == '" + internalHeatID + "' && ATTR.lane == '" + lane + "' ]]]]]"
         var tmp = jmespath.search(event_clubs, searchstring);
-
+     
         var all_entries_only = jmespath.search(event_clubs, "[].RELAYS[].RELAY[].ENTRIES[].ENTRY[?ATTR.heatid == '" + internalHeatID + "' && ATTR.lane == '" + lane + "']")
         var single_entry = jmespath.search(all_entries_only, "[]")
         var cleared_entry = jmespath.search(single_entry, "[].{entrytime: ATTR.entrytime, lane: ATTR.lane, RELAYPOSTIONS: RELAYPOSITIONS[].RELAYPOSITION}")
 
         var get_club_Search = "[].{code: ATTR.code, name: ATTR.name}"
         var club_per_lane = jmespath.search(tmp, get_club_Search);
+
+        console.log(JSON.stringify(single_entry))
 
         var complete_entry = [{ ...JSON.parse(emptylane), ...club_per_lane[0], ...cleared_entry[0] }]
 
