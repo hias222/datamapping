@@ -1,6 +1,7 @@
 #!/bin/bash 
 
-MQTT_HOST=rockpi-4b
+# MQTT_HOST=rockpi-4b
+MQTT_HOST=rasp5
 #MQTT_HOST=192.168.178.152
 RAW_TOPIC=rawdata
 filename=6_lanes/raw_data_1.txt
