@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MQTT_HOST=rockpi-4b
+MQTT_HOST=localhost
 RAW_TOPIC=rawdata
 
 RANDOM_TIME="1:1,1"
