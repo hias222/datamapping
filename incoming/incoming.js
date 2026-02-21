@@ -330,10 +330,10 @@ function getLaneNumber(message) {
     if (first_lane == 0) {
         // wir korrigieren, da colorado immer mit 1 beginnt, auch wenn die erste Bahn 0 ist, das führt zu Problemen bei der Zuordnung der Schwimmerdaten, da die Bahnnummern um 1 verschoben sind
         corrected_lane = words[1] - 1
-        if (incoming_debug) console.log("(incoming.js)lane: " + corrected_lane);
+        if (incoming_debug) console.log("(incoming.js)lane (mit 0): " + corrected_lane);
         return corrected_lane
     } else {
-        if (incoming_debug) console.log("(incoming.js)lane: " + words[1]);
+        if (incoming_debug) console.log("(incoming.js)lane (ohne 0): " + words[1]);
         return words[1]
     }
 }
