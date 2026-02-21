@@ -45,6 +45,7 @@ class MessageMapper {
       if (mapper_debug) console.log("<message_mapper> aditional steps check")
       if (newmessage != null) {
         if (mapper_debug) console.log("<message_mapper> generate message")
+        if (first_lane == 0) newmessage.lane = newmessage.lane - 1
         var stringnewmessage = JSON.stringify(newmessage)
         if (mapper_debug) console.log("<message_mapper> datamapping mapper: " + stringnewmessage)
         try {
