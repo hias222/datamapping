@@ -328,6 +328,7 @@ function getLaneNumber(message) {
     var words = message.toString().split(' ');
     //header wk heat
     if (first_lane == 0) {
+        // wir korrigieren, da colorado immer mit 1 beginnt, auch wenn die erste Bahn 0 ist, das führt zu Problemen bei der Zuordnung der Schwimmerdaten, da die Bahnnummern um 1 verschoben sind
         corrected_lane = words[1] - 1
         if (incoming_debug) console.log("(incoming.js)lane: " + corrected_lane);
         return corrected_lane
