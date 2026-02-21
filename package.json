@@ -1,7 +1,7 @@
 {
   "name": "express-api-mqtt-example",
   "version": "1.0.0",
-  "description": "A project example to show how to work with mqtt and express api rest",
+  "description": "data mapping for colorado timing system",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -24,13 +24,13 @@
   "homepage": "https://github.com/cbh6/express-api-mqtt-example#readme",
   "dependencies": {
     "auto-bind": "^2.1.1",
-    "aws-iot-device-sdk": "^2.2.11",
+    "aws-iot-device-sdk-v2": "^1.19.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "formidable": "^1.2.2",
     "jmespath": "^0.15.0",
-    "mqtt": "^3.0.0",
+    "mqtt": "^5.0.0",
     "properties-reader": "^0.3.1",
     "unzipper": "^0.10.10",
     "xml2js": "^0.4.23"

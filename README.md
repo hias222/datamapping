@@ -106,3 +106,11 @@ lane 3 00:35,61 7
 ## ToDOs
 
 * at AWS core connection
+
+## Update
+
+    "aws-iot-device-sdk": "^2.2.11",
+    "mqtt": "^3.0.0",
+
+    "aws-iot-device-sdk-v2": "^1.19.1",
+         "mqtt": "^5.0.0",

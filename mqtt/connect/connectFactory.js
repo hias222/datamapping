@@ -1,7 +1,7 @@
 const MQTT = require('mqtt');
 require('dotenv').config()
 
-const AWS = require('aws-iot-device-sdk/device')
+const AWS = require('aws-iot-device-sdk-v2/')
 
 var mqttaws_host= typeof process.env.DST_AWS_HOST !== "undefined" ? process.env.DST_AWS_HOST : 'a101aihtfyydn6-ats.iot.eu-central-1.amazonaws.com';
 var mqttaws_keypath= typeof process.env.DST_AWS_KEYPATH !== "undefined" ? process.env.DST_AWS_KEYPATH : 'aws/colorado.private.key';
