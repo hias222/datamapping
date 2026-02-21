@@ -10,6 +10,7 @@ var mqttMessageSender = new MqttMessageSender()
 require('dotenv').config();
 
 var incoming_debug = process.env.MQTT_INCOMING_DEBUG === 'true' ? true : false;
+var first_lane = typeof process.env.POOL_FIRST_LANE !== "undefined" ? process.env.POOL_FIRST_LANE : 1;
 
 var propertyfile = __dirname + "/../" + process.env.PROPERTY_FILE;
 console.log("<incoming> using " + propertyfile);
@@ -326,8 +327,14 @@ function getMessageWord2(message) {
 function getLaneNumber(message) {
     var words = message.toString().split(' ');
     //header wk heat
-    if (incoming_debug) console.log("(incoming.js)lane: " + words[1]);
-    return words[1]
+    if (first_lane == 0) {
+        corrected_lane = words[1] - 1
+        if (incoming_debug) console.log("(incoming.js)lane: " + corrected_lane);
+        return corrected_lane
+    } else {
+        if (incoming_debug) console.log("(incoming.js)lane: " + words[1]);
+        return words[1]
+    }
 }
 
 function getPlace(message) {
