@@ -16,6 +16,7 @@ var storetopic = typeof process.env.DEST_STORE_TOPIC !== "undefined" ? process.e
 var debug = process.env.MQTT_SENDER_DEBUG === 'true' ? true : false;
 
 function storeBaseData(message, mqttSender) {
+    if (debug) console.log('<sendstoredat> ' + message);
     try {
         var jsonmessage = JSON.parse(message)
         if (debug) console.log('Store Type: ' + jsonmessage.type)

@@ -2,6 +2,7 @@ const mqtt = require('mqtt');
 const mqttConfig = require("./connect/mqttSettings");
 const connectFactory = require("./connect/connectFactory");
 const storeData = require("./sendStoreData")
+const mqtt5 = require("aws-iot-device-sdk-v2").mqtt5;
 
 require('dotenv').config()
 
@@ -20,11 +21,28 @@ class MqttSender {
   connect() {
 
     this.mqttClient = connectFactory.createConnect(this.mqttmode, mqttConfig.mqttDestination, mqttConfig.mqttSettings);
+    console.log("==== mqttClient ====\n");
 
-    // AWS offline checks
-    this.mqttClient.subscribe(this.mqtttopic)
-    this.mqttClient.subscribe(this.storetopic)
-    // Mqtt error calback
+    // Event handler for lifecycle event Stopped
+    this.mqttClient.on('stopped', () => {
+      console.log("Lifecycle Stopped\n");
+    });
+
+    // Event handler for lifecycle event Attempting Connect
+    this.mqttClient.on('attemptingConnect', () => {
+      console.log('<sender> Lifecycle Connection Attempt\n');
+    });
+
+    // Event handler for lifecycle event Connection Success
+    this.mqttClient.on('connectionSuccess', (eventData) => {
+      console.log(`Lifecycle Connection Success with reason code: ${eventData.connack.reasonCode}\n`);
+    });
+
+    // Event handler for lifecycle event Connection Failure
+    this.mqttClient.on('connectionFailure', (eventData) => {
+      console.log(`Lifecycle Connection Failure with exception: ${eventData.error}`);
+    });
+
     this.mqttClient.on('error', (err) => {
       console.log('<sender> error');
       console.log(err);
@@ -54,6 +72,8 @@ class MqttSender {
       sendsuccess = false;
     });
 
+    console.log("==== Starting client ====");
+    this.mqttClient.start();
   }
 
   // Sends a mqtt message to topic: mytopic
@@ -61,13 +81,28 @@ class MqttSender {
     //send to MQTT
     var _debug = this.debug
     var _mqttmode = this.mqttmode
-    this.mqttClient.publish(this.mqtttopic, message, function (err) {
-      if (_debug) console.log('<sender> ' + _mqttmode + ' send ');
+    if (_debug) console.log('<sender> try publish ' + _mqttmode + ' message: ' + message);
+
+    this.mqttClient.publish({
+      topicName: this.mqtttopic,
+      payload: message,
+      qos: mqtt5.QoS.AtLeastOnce
+    }, function (err) {
+      if (_debug) console.log('<sender> ' + _mqttmode + ' send to' + this.mqtttopic);
       if (err) {
-        console.log('<mqtt_sende> ' + publish)
+        console.log('<mqtt_sender> ' + this.mqtttopic + ' publish error')
         console.log(err)
       }
     })
+
+
+    //this.mqttClient.publish(this.mqtttopic, message, function (err) {
+    //  if (_debug) console.log('<sender> ' + _mqttmode + ' send ');
+    //  if (err) {
+    //    console.log('<mqtt_sende> ' + publish)
+    //    console.log(err)
+    //  }
+    //})
     //send for store
     storeData.storeBaseData(message, this.mqttClient)
     if (this.debug) console.log('<sender> ' + this.mqttmode + ' store ' + message);

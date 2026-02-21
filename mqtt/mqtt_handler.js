@@ -47,6 +47,7 @@ class MqttHandler {
     //this.mqttClient = mqtt.connect(this.host, { username: this.username, password: this.password });
 
     this.connectToMqtt()
+
     //this.mqttClient = mqtt.connect(this.host, settings);
 
     // Mqtt error calback

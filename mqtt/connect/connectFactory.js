@@ -1,13 +1,23 @@
+
 const MQTT = require('mqtt');
-require('dotenv').config()
+require('dotenv').config();
 
-const AWS = require('aws-iot-device-sdk-v2/')
+const {
+    mqtt,
+    io,
+    iot,
+    iotidentity,
+    iotjobs,
+    iotshadow,
+    mqtt5
+} = require('aws-iot-device-sdk-v2');
 
-var mqttaws_host= typeof process.env.DST_AWS_HOST !== "undefined" ? process.env.DST_AWS_HOST : 'a101aihtfyydn6-ats.iot.eu-central-1.amazonaws.com';
-var mqttaws_keypath= typeof process.env.DST_AWS_KEYPATH !== "undefined" ? process.env.DST_AWS_KEYPATH : 'aws/colorado.private.key';
-var mqttaws_certpath= typeof process.env.DST_AWS_CERTPATH !== "undefined" ? process.env.DST_AWS_CERTPATH: 'aws/colorado.cert.pem';
-var mqttaws_capath= typeof process.env.DST_AWS_CAPATH !== "undefined" ? process.env.DST_AWS_CAPATH: 'aws/root-CA.crt';
-var mqttaws_clientid= typeof process.env.DST_AWS_CLIENTID !== "undefined" ? process.env.DST_AWS_CLIENTID: 'sdk-nodejs-d9122ba1-c0df-4470-a82f-6cd8b7c04e21';
+
+var mqttaws_host = process.env.DST_AWS_HOST || 'a101aihtfyydn6-ats.iot.eu-central-1.amazonaws.com';
+var mqttaws_keypath = process.env.DST_AWS_KEYPATH || 'aws/colorado.private.key';
+var mqttaws_certpath = process.env.DST_AWS_CERTPATH || 'aws/colorado.cert.pem';
+var mqttaws_capath = process.env.DST_AWS_CAPATH || 'aws/root-CA.crt';
+var mqttaws_clientid = process.env.DST_AWS_CLIENTID || 'sdk-nodejs-d9122ba1-c0df-4470-a82f-6cd8b7c04e21';
 
 /*
 node node_modules/aws-iot-device-sdk/examples/device-example.js 
@@ -18,42 +28,39 @@ node node_modules/aws-iot-device-sdk/examples/device-example.js
 --client-id=sdk-nodejs-d9122ba1-c0df-4470-a82f-6cd8b7c04e21
 */
 
-const connect = { MQTT, AWS };
 
 module.exports = {
     createConnect(type, mqttdestination, settings) {
-        const ConnectType = connect[type];
-        //Mqtt.connect(attributes)
-        console.log('<connectFactory> attributes: ')
-        console.log(mqttdestination)
-        console.log(settings)
         if (type === 'AWS') {
-            const AWSDevice = ConnectType({
-                host: mqttaws_host,
-                keyPath: mqttaws_keypath,
-                certPath: mqttaws_certpath,
-                caPath: mqttaws_capath,
-                clientId: mqttaws_clientid,
-                debug: true
-                /*
-                keyPath: args.privateKey,
-                certPath: args.clientCert,
-                caPath: args.caCert,
-                clientId: args.clientId,
-                region: args.region,
-                baseReconnectTimeMs: args.baseReconnectTimeMs,
-                keepalive: args.keepAlive,
-                protocol: args.Protocol,
-                port: args.Port,
-                host: args.Host,
-                debug: args.Debug
-                */
-            });
-            //AWSDevice.subscribe(mqtttopic)
-            return AWSDevice
-        } else {
-            return ConnectType.connect(mqttdestination, settings)
-        }
+            // AWS IoT Device SDK v2 connection
+            console.log("==== Creating AWS MQTT5 Client ====\n");
+            //const clientBootstrap = new io.ClientBootstrap();
+            console.log("==== configBuilder ====\n");
+            const configBuilder = iot.AwsIotMqtt5ClientConfigBuilder.newDirectMqttBuilderWithMtlsFromPath(
+                mqttaws_host,
+                mqttaws_certpath,
+                mqttaws_keypath
+            );
 
+            //configBuilder.with_certificate_authority_from_path(mqttaws_capath);
+            //configBuilder.with_clean_session(true);
+            //configBuilder.with_client_id(mqttaws_clientid);
+            //configBuilder.with_endpoint(mqttaws_host);
+            configBuilder.withConnectProperties({
+                clientId: mqttaws_clientid,
+                keepAliveIntervalSeconds: 1200
+            });
+
+            const config = configBuilder.build();
+            const mqttClient = new mqtt5.Mqtt5Client(config);
+
+            //const connection = mqttClient.new_connection(config);
+
+            // Return the connection object; user must call .connect() and handle promises
+            return mqttClient;
+        } else if (type === 'MQTT') {
+            console.log("==== Creating MQTT Client ====\n");
+            return MQTT.connect(mqttdestination, settings);
+        }
     }
 };
