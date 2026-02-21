@@ -20,8 +20,8 @@ var first_lane = typeof process.env.POOL_FIRST_LANE !== "undefined" ? process.en
 function storeLaneData(lane, laneraw) {
   try {
     // colorado schickt immer 1 und startet nicht mit null
-    //var lanenumber = (lane - parseInt(first_lane))
-    var lanenumber = (lane - 1)
+    var lanenumber = (lane - parseInt(first_lane))
+    // var lanenumber = (lane - 1)
     var number_of_elements_to_remove = 1
     if (mapper_debug) console.log("First lane is " + first_lane)
     if (mapper_debug) console.log("<message_mapper> store lane " + lane + " on list number " + lanenumber )
@@ -69,8 +69,11 @@ class MessageMapper {
               console.log("<mapper> heat change - stored")
               for (var i = 0; i < lanes; i++) {
                 //we send all lanes
-                var incomingmsg = "lane " + (i + parseInt(first_lane));
-                storeLaneData(i + parseInt(first_lane), incomingmsg);
+                // colorado schickt auch falsch wir korrigieren nicht
+                // var incomingmsg = "lane " + (i + parseInt(first_lane));
+                // storeLaneData(i + parseInt(first_lane), incomingmsg);
+                var incomingmsg = "lane " + (i + 1);
+                storeLaneData(i + 1, incomingmsg);
                 var newlanemessage = incoming.parseColoradoData(incomingmsg.toString())
                 var stringnewlanemessage = JSON.stringify(newlanemessage)
                 mqttSender.sendMessage(stringnewlanemessage);
